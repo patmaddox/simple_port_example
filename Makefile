@@ -15,7 +15,7 @@ build/one_more_program: src/one_more_program.cpp
 	clang++ -o build/one_more_program src/one_more_program.cpp
 
 .PHONY: install
-install:
+install: build/simple_port build/other_program build/one_more_program
 	${INSTALL} build/simple_port ${DESTDIR}${PREFIX}/bin/simple_port
 	${INSTALL} build/other_program ${DESTDIR}${PREFIX}/bin/other_program
 	${INSTALL} build/one_more_program ${DESTDIR}${PREFIX}/bin/one_more_program
