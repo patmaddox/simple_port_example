@@ -1,5 +1,5 @@
 *~
 build
-port/work
-port/_dist
 distinfo
+port/_dist
+port/work
