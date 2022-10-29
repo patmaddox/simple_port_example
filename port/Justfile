@@ -1,8 +1,12 @@
-package: _workclean _dist
+package: _workclean distinfo
   make DISTDIR=$(pwd)/_dist package
 
 distinfo: _dist
-  make DISTDIR=$(pwd)/_dist makesum > distinfo
+  #!/bin/sh
+  if [ ! -f distinfo ]; then
+    make DISTDIR=$(pwd)/_dist makesum > distinfo
+    echo "Generated distinfo"
+  fi
 
 _dist:
   @mkdir -p _dist

@@ -13,6 +13,10 @@ Or, you can just build directly from it!
 
 `cd port && make package`
 
+Note: This dir does not check in destinfo, because it is intended to be used in a development workflow.
+For production, you would want to generate the distinfo file, and copy the entire `port/` contents to your ports repo.
+Otherwise, it's a bit weird where the `distinfo` file is always committed after the tag.
+
 ## Accelerated developer workflow
 
 See `Justfile` for the setup.
