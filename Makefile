@@ -22,4 +22,4 @@ install: build/simple_port build/other_program build/one_more_program
 
 .PHONY: clean
 clean:
-	rm -rf build
+	@rm -rf build

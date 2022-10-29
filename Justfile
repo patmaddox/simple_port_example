@@ -1,23 +1,18 @@
-build:
-  make WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port
-
-package: build clean-package
-  @make WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port stage > /dev/null
-  @make WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port makeplist | grep -v '/you/have/to/check/what/makeplist/gives/you' > port/pkg-plist
-  @# need to re-stage after generating the packing list
-  @make WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port restage
-  make WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port package
+package: clean-package _plist
+  make WRKDIR=$(pwd)/work WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port package
 
 clean-package:
-  @make WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port clean
+  @rm -rf work/pkg
 
-clean: clean-package
-  make clean
+clean:
+  @make clean
+  @rm -rf work
 
-distclean:
-  rm -rf port/_dist
+_plist: _stage
+  make WRKDIR=$(pwd)/work WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port makeplist | grep -v '/you/have/to/check/what/makeplist/gives/you' > port/pkg-plist
+  @# need to re-stage after generating the packing list
+  @make WRKDIR=$(pwd)/work WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port restage > /dev/null
 
-prod_package: clean-package
-  @mkdir -p port/_dist
-  make DISTDIR=$(pwd)/port/_dist -C port makesum > port/distinfo
-  make DISTDIR=$(pwd)/port/_dist -C port package
+_stage:
+  make WRKDIR=$(pwd)/work WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port
+  @make WRKDIR=$(pwd)/work WRKSRC=$(pwd) USE_GITHUB=no DISTFILES="" -C port stage > /dev/null

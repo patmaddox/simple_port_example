@@ -1,0 +1,16 @@
+package: _workclean _dist
+  make DISTDIR=$(pwd)/_dist package
+
+distinfo: _dist
+  make DISTDIR=$(pwd)/_dist makesum > distinfo
+
+_dist:
+  @mkdir -p _dist
+
+clean: _workclean distclean
+
+_workclean:
+  @rm -rf work
+
+distclean:
+  @rm -rf _dist
